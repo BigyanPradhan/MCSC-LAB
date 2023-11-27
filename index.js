@@ -18,9 +18,9 @@ app.post('/', (req, res) => {
 
 app.post('/q1', (req, res) => {
     // Get user inputs
-    const equationInput = "x^2-sin(x)";
-    const initialGuess1 = parseFloat(0.5);
-    const initialGuess2 = parseFloat(1.0);
+    const equationInput = "x^3+x^2-1";
+    const initialGuess1 = parseFloat(0);
+    const initialGuess2 = parseFloat(1);
     const tol = 4;
     let a;
     let b;
@@ -53,10 +53,6 @@ app.post('/q1', (req, res) => {
 
     while (iteration < maxIterations) {
         try {
-            // Calculate the function value at a and b
-            const fxa = equationFunction.evaluate({ x: a });
-            const fxb = equationFunction.evaluate({ x: b });
-
             //Formula for bisection method
             s=(a+b)/2;
 
@@ -82,6 +78,10 @@ app.post('/q1', (req, res) => {
             // Append current iteration details to results HTML
             resultsHTML += `<tr><td>${iteration}</td><td>${a.toFixed(6)}</td><td>${b.toFixed(6)}</td><td>${s.toFixed(6)}</td>
             <td>${Remarks}</td></tr>`;
+
+            if (Math.abs(fxs) < tolerance) {
+                break;
+            }
 
             //Update the value with s
             if(fxs<0)
@@ -122,7 +122,7 @@ app.post('/q1', (req, res) => {
                 <form id="solver-form" action="/" method="post">
                 <div class="prev">
                 <p> Equation = ${equationInput} </p>
-                <p>Initial Guess:   a = ${a} || b = ${b}</p>
+                <p>Initial Guess:   a = ${initialGuess1} || b = ${initialGuess2}</p>
                 <p>The Solution correct to ${tol} digits is found by:</p>
                 </div>
                 <div class="text">
