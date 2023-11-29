@@ -18,8 +18,8 @@ app.post('/', (req, res) => {
 
 app.post('/q1', (req, res) => {
     // Get user inputs
-    const equationInput = "x^3+x^2-1";
-    const initialGuess1 = parseFloat(0);
+    const equationInput = "x^4-sin(x)";
+    const initialGuess1 = parseFloat(0.5);
     const initialGuess2 = parseFloat(1);
     const tol = 4;
     let a;
@@ -112,12 +112,12 @@ app.post('/q1', (req, res) => {
     <!DOCTYPE html>
     <html>
     <head>
-        <title>Newton-Raphson Solver</title>
+        <title>Bisection Method</title>
         <link rel="stylesheet" type="text/css" href="css/styles.css" />
     </head>
     <body background="resources/mcsc.png">
         <b>
-        <h1>Newton-Raphson </h1>
+        <h1>Bisection Method </h1>
         <h1>Solver</h1>
                 <form id="solver-form" action="/" method="post">
                 <div class="prev">
@@ -223,6 +223,185 @@ app.post('/q2', (req, res) => {
     </html>
 `);
 });
+
+app.post('/q3', (req, res) => {
+    const equationInput = "e^x";
+    const start = -1;
+    const end = 1;
+    const h = 0.1;
+    let n = ((end - start) / h) + 1;
+    let twoDArray = [
+        ['x', 'y', 'diff:1', 'diff:2', 'diff:3', 'diff:4', 'diff:5', 'diff:6', 'diff:7', 'diff:8', 'diff:9', 'diff:10', 'diff:11', 'diff:12', 'diff:13', 'diff:14', 'diff:15', 'diff:16', 'diff:17', 'diff:18', 'diff:19', 'diff:20'],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+
+    let i = 1;
+    let c = parseFloat(start);
+
+    console.log("Empty 2D Array:", twoDArray);
+
+    for (i = 1; i <= n; i++) {
+        twoDArray[i][0] = c.toFixed(4);
+        c = c + h;
+    }
+
+    const equationFunction = math.parse(equationInput).compile();
+
+    for (i = 1; i <= n; i++) {
+        let fxval = equationFunction.evaluate({ x: parseFloat(twoDArray[i][0]) });
+        twoDArray[i][1] = fxval;
+    }
+
+    let j;
+
+    for (j = 2; j <= n; j++) {
+        for (i = 1; i <= n - j + 1; i++) {
+            let a = i;
+            let b = j - 1;
+            let a1 = i + 1;
+            twoDArray[i][j] = (twoDArray[a][b] - twoDArray[a1][b]).toFixed(4);
+        }
+    }
+
+    // Generating HTML table
+    let htmlTable = '<table border="1">';
+    for (i = 0; i <= n; i++) {
+        htmlTable += '<tr>';
+        for (j = 0; j <= 21; j++) {
+            htmlTable += `<td>${twoDArray[i][j]}</td>`;
+        }
+        htmlTable += '</tr>';
+    }
+    htmlTable += '</table>';
+
+    res.send(`<!DOCTYPE html>
+        <html>
+        <head>
+            <title>Finite-Difference Table</title>
+            <link rel="stylesheet" type="text/css" href="css/styles.css" />
+        </head>
+        <body background="resources/finite.jpeg">
+            <b>
+            <h1>Finite-Difference </h1>
+            <h1>Table</h1>
+                    <form id="solver-form" action="/" method="post">
+                    <div class="prev">
+                    <p> Equation = ${equationInput} </p>
+                    <p>Interval starts from ${start} and ends at ${end} and includes the start and end points as well.</p>
+                    <p>Interval size is: ${h}</p>
+                    <p>The finite(forward) difference table is shown below:</p>
+                    </div>
+                    <div class="text1">
+                    <p>${htmlTable}</p>
+                    <center>
+                        <input type="submit" class="btn1" value="Back">    
+                    </center>
+                    </div>
+                    </form>
+                   
+            </b>
+        </body>
+        </html>`);
+});
+
+
+/*app.post('/q3', (req, res) => {
+    const equationInput = "e^x";
+    const start = -1;
+    const end = 1;
+    const h = 0.1 ;
+    let n = ((end - start)/h)+1;
+    let twoDArray = [
+        ['x','y','diff:1','diff:2','diff:3','diff:4','diff:5','diff:6','diff:7','diff:8','diff:9','diff:10','diff:11','diff:12','diff:13','diff:14','diff:15','diff:16','diff:17','diff:18','diff:19','diff:20'],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    ];
+
+    let i=1 ;
+    let c = parseFloat(start);
+
+    console.log("Empty 2D Array:", twoDArray);
+
+
+    for (i=1; i<=n;i++)
+    {
+        twoDArray[i][0] = c.toFixed(4);
+        c = c + h;
+    }
+
+    const equationFunction = math.parse(equationInput).compile();
+
+    for(i=1; i<=n; i++)
+    {
+        let fxval = equationFunction.evaluate({ x: twoDArray[i][0] });
+        twoDArray[i][1] = fxval;
+    }
+
+    let j;
+
+    for(j=2; j<=n; j++)
+    {
+        for(i=1; i<=n-j+1; i++)
+        {
+            let a=i;
+            let b=j-1;
+            let a1=i+1;
+            twoDArray[i][j] = twoDArray[a][b] - twoDArray[a1][b];
+        }
+    }
+
+    // Generating HTML table
+    let htmlTable = '<table border="1">';
+    for (i = 0; i <= n; i++) {
+        htmlTable += '<tr>';
+        for (j = 0; j <= n + 1; j++) {
+            htmlTable += `<td>${twoDArray[i][j]}</td>`;
+        }
+        htmlTable += '</tr>';
+    }
+    htmlTable += '</table>';
+
+    res.send(htmlTable);
+});*/
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
