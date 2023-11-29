@@ -279,7 +279,7 @@ app.post('/q3', (req, res) => {
             let a = i;
             let b = j - 1;
             let a1 = i + 1;
-            twoDArray[i][j] = (twoDArray[a][b] - twoDArray[a1][b]).toFixed(4);
+            twoDArray[i][j] = (twoDArray[a1][b] - twoDArray[a][b]).toFixed(4);
         }
     }
 
@@ -324,84 +324,86 @@ app.post('/q3', (req, res) => {
         </html>`);
 });
 
-
-/*app.post('/q3', (req, res) => {
-    const equationInput = "e^x";
-    const start = -1;
-    const end = 1;
-    const h = 0.1 ;
-    let n = ((end - start)/h)+1;
+app.post('/q4', (req, res) => {
+    const x1 = -1;
+    const x2 = 1;
+    let n = 6;
     let twoDArray = [
-        ['x','y','diff:1','diff:2','diff:3','diff:4','diff:5','diff:6','diff:7','diff:8','diff:9','diff:10','diff:11','diff:12','diff:13','diff:14','diff:15','diff:16','diff:17','diff:18','diff:19','diff:20'],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        ['x', 'y', 'diff:1', 'diff:2', 'diff:3', 'diff:4', 'diff:5'],
+        [0.20, 1.6596, 0, 0, 0, 0, 0],
+        [0.22, 1.6698, 0, 0, 0, 0, 0],
+        [0.24, 1.6804, 0, 0, 0, 0, 0],
+        [0.26, 1.6912, 0, 0, 0, 0, 0],
+        [0.28, 1.7024, 0, 0, 0, 0, 0],
+        [0.30, 1.7139, 0, 0, 0, 0, 0],
     ];
 
-    let i=1 ;
-    let c = parseFloat(start);
 
-    console.log("Empty 2D Array:", twoDArray);
-
-
-    for (i=1; i<=n;i++)
-    {
-        twoDArray[i][0] = c.toFixed(4);
-        c = c + h;
-    }
-
-    const equationFunction = math.parse(equationInput).compile();
-
-    for(i=1; i<=n; i++)
-    {
-        let fxval = equationFunction.evaluate({ x: twoDArray[i][0] });
-        twoDArray[i][1] = fxval;
-    }
-
+    let i;
     let j;
 
-    for(j=2; j<=n; j++)
-    {
-        for(i=1; i<=n-j+1; i++)
-        {
-            let a=i;
-            let b=j-1;
-            let a1=i+1;
-            twoDArray[i][j] = twoDArray[a][b] - twoDArray[a1][b];
+    for (j = 2; j <= n; j++) {
+        for (i = 1; i <= n - j + 1; i++) {
+            let a = i;
+            let b = j - 1;
+            let a1 = i + 1;
+            twoDArray[i][j] = (twoDArray[a1][b] - twoDArray[a][b]).toFixed(4);
         }
+    }
+
+    let x0 = twoDArray[1][0];
+    let xn = twoDArray[7][0];
+
+    let p1= (x1-x0)/h;
+    let p2= (x2-xn)/h;
+
+    let fvalforward = x0 ;
+    let fvalbackward = xn ;
+
+    for(i=1; i<=5)
+    {
+        fvalforward +=  
     }
 
     // Generating HTML table
     let htmlTable = '<table border="1">';
     for (i = 0; i <= n; i++) {
         htmlTable += '<tr>';
-        for (j = 0; j <= n + 1; j++) {
+        for (j = 0; j <= 6; j++) {
             htmlTable += `<td>${twoDArray[i][j]}</td>`;
         }
         htmlTable += '</tr>';
     }
     htmlTable += '</table>';
 
-    res.send(htmlTable);
-});*/
+    console.log("2D Array:", twoDArray);
+
+    res.send(`<!DOCTYPE html>
+        <html>
+        <head>
+            <title>Finite-Difference Table</title>
+            <link rel="stylesheet" type="text/css" href="css/styles.css" />
+        </head>
+        <body background="resources/mcsc.png">
+            <b>
+            <h1>Finite-Difference </h1>
+            <h1>Table</h1>
+                    <form id="solver-form" action="/" method="post">
+                    <div class="prev">
+                    <p>The finite difference table is shown below:</p>
+                    </div>
+                    <div class="text2">
+                    <p>${htmlTable}</p>
+                    <center>
+                        <input type="submit" class="btn1" value="Back">    
+                    </center>
+                    </div>
+                    </form>
+                   
+            </b>
+        </body>
+        </html>`);
+});
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
