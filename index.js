@@ -18,7 +18,7 @@ app.post('/', (req, res) => {
 
 app.post('/q1', (req, res) => {
     // Get user inputs
-    const equationInput = "x^4-sin(x)";
+    const equationInput = "x^2-sin(x)";
     const initialGuess1 = parseFloat(0.5);
     const initialGuess2 = parseFloat(1);
     const tol = 4;
@@ -325,8 +325,8 @@ app.post('/q3', (req, res) => {
 });
 
 app.post('/q4', (req, res) => {
-    const x1 = -1;
-    const x2 = 1;
+    const x1 = 0.21;
+    const x2 = 0.29;
     let n = 6;
     let twoDArray = [
         ['x', 'y', 'diff:1', 'diff:2', 'diff:3', 'diff:4', 'diff:5'],
@@ -338,7 +338,7 @@ app.post('/q4', (req, res) => {
         [0.30, 1.7139, 0, 0, 0, 0, 0],
     ];
 
-
+    let h = 0.2;
     let i;
     let j;
 
@@ -352,17 +352,29 @@ app.post('/q4', (req, res) => {
     }
 
     let x0 = twoDArray[1][0];
-    let xn = twoDArray[7][0];
+    let xn = twoDArray[6][0];
 
     let p1= (x1-x0)/h;
     let p2= (x2-xn)/h;
 
-    let fvalforward = x0 ;
-    let fvalbackward = xn ;
+    let o1= 1;
+    let o2= 1;
 
-    for(i=1; i<=5)
+    let fvalforward = parseFloat(twoDArray[1][1]) ;
+    let fvalbackward = parseFloat(twoDArray[6][1]) ;
+
+    //Newton's forward interpolation calculation
+    for(i=0; i<5; i++)
     {
-        fvalforward +=  
+        o1 = o1* (p1-i);
+        fvalforward = fvalforward + (o1.toFixed(5)*(twoDArray[1][i+2])/(math.factorial(i+1)));
+    }
+
+    //Newton's backward interpolation calculation
+    for(i=0; i<5; i++)
+    {
+        o2 = o2* (p2+i);
+        fvalbackward = fvalbackward + (o2.toFixed(5)*(twoDArray[n-i-1][i+2])/(math.factorial(i+1))) ;
     }
 
     // Generating HTML table
@@ -381,19 +393,24 @@ app.post('/q4', (req, res) => {
     res.send(`<!DOCTYPE html>
         <html>
         <head>
-            <title>Finite-Difference Table</title>
+            <title>Newton's Interpolation</title>
             <link rel="stylesheet" type="text/css" href="css/styles.css" />
         </head>
         <body background="resources/mcsc.png">
             <b>
-            <h1>Finite-Difference </h1>
-            <h1>Table</h1>
+            <h1>Newton's Interpolation </h1>
+            <h1>Solver</h1>
                     <form id="solver-form" action="/" method="post">
                     <div class="prev">
                     <p>The finite difference table is shown below:</p>
+                    <p>The interval difference is: ${h}</p>
+                    <p>p-value for x=${x1} is: ${p1.toFixed(2)}</p>
+                    <p>p-value for x=${x2} is: ${p2.toFixed(2)}</p>
                     </div>
                     <div class="text2">
                     <p>${htmlTable}</p>
+                    <p>The value of f(${x1}) using Newton's Forward Interpolation is: ${fvalforward.toFixed(5)}</p>
+                    <p>The value of f(${x2}) using Newton's Backward Interpolation is: ${fvalbackward.toFixed(5)}</p>
                     <center>
                         <input type="submit" class="btn1" value="Back">    
                     </center>
