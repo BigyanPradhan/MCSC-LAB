@@ -258,8 +258,6 @@ app.post('/q3', (req, res) => {
     let i = 1;
     let c = parseFloat(start);
 
-    console.log("Empty 2D Array:", twoDArray);
-
     for (i = 1; i <= n; i++) {
         twoDArray[i][0] = c.toFixed(4);
         c = c + h;
