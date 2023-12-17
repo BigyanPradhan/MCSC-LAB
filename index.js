@@ -420,6 +420,90 @@ app.post('/q4', (req, res) => {
         </html>`);
 });
 
+app.post('/q5', (req, res) => {
+    const x = 2;
+    let n = 5;
+    let twoDArray = [
+        ['x', 'y'],
+        [0, 0],
+        [1, 1],
+        [3, 81],
+        [4, 256],
+        [5, 625]
+    ];
+
+    let i;
+    let j;
+    let a=1; 
+    let xVal;
+    let yVal;
+    let x0 = x;
+    let L = 0;
+
+    while (a<=n)
+    {
+        xVal= twoDArray[a][0];
+        yVal= twoDArray[a][1];
+        let N = 1;
+        let D = 1;
+        for(i=1; i<=n; i++)
+        {
+        if (xVal != twoDArray[i][0])
+        {
+            N = N * (x0-twoDArray[i][0]);
+            D = D * (xVal-twoDArray[i][0]);
+        }
+        else 
+        {
+            console.log('encountered:', twoDArray[i][0])
+        }
+        }
+        L = L + ( N / D ) * yVal;
+        a++;
+
+    }
+    
+    let htmlTable = '<table border="1">';
+    for (i = 0; i <=5; i++) {
+        htmlTable += '<tr>';
+        for (j = 0; j < 2; j++) {
+            htmlTable += `<td>${twoDArray[i][j]}</td>`;
+        }
+        htmlTable += '</tr>';
+    }
+    htmlTable += '</table>';
+
+    res.send(`<!DOCTYPE html>
+        <html>
+        <head>
+            <title>Lagrange's Interpolation</title>
+            <link rel="stylesheet" type="text/css" href="css/styles.css" />
+        </head>
+        <body background="resources/mcsc.png">
+            <b>
+            <h1>Lagrange's Interpolation </h1>
+            <h1>Solver</h1>
+                    <form id="solver-form" action="/" method="post">
+                    <div class="prev">
+                    <center>
+                    <p>To find: f(${x})</p>
+                    <p>The given data is:</p>
+                    <p>${htmlTable}</p>
+                    <p>The value of f(${x}) using Lagranges Interpolation is: ${L}</p>
+                    <input type="submit" class="btn1" value="Back">    
+                    </center>
+                    </div>
+                    <div class="text2">
+                    <center>
+                    </center>
+                    </div>
+                    </form>
+                   
+            </b>
+        </body>
+        </html>`);
+});
+
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
