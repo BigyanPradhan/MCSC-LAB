@@ -504,6 +504,117 @@ app.post('/q5', (req, res) => {
         </html>`);
 });
 
+app.post('/q6', (req, res) => {
+    const fx= 'sin(x)*(1/(e^x))';
+    const a= 0;
+    const b= math.pi;
+    let n = 20;
+    let h = (b-a)/n;
+
+    let x = a;
+
+    let twoDArray = [
+        ['x', 'y'],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0]
+    ];
+
+    let i;
+    let j;
+
+    for(i=1; i<=n+1; i++)
+    {
+        twoDArray[i][0] = x;
+        x = x + h;
+    }
+
+    let ef= math.parse(fx).compile();
+    for(i=1; i<=n+1; i++)
+    {
+        let b = ef.evaluate({x: twoDArray[i][0]});
+        twoDArray[i][1] = b;
+    }
+
+    let trz = 0;
+    
+    i=0;
+    while(i < n+2)
+    {
+        for(i=1; i<=n+1; i++)
+        {
+            if(i==1 || i==n+1)
+            {
+                trz =  trz + twoDArray[i][0];
+            }
+            else{
+                trz = trz + 2 * twoDArray[i][0];
+            }
+            console.log(trz);
+        }
+    }
+
+    trz = (h/2) * trz;
+
+    let htmlTable = '<table border="0.5">';
+    for (i = 0; i <=n+1; i++) {
+        htmlTable += '<tr>';
+        for (j = 0; j < 2; j++) {
+            htmlTable += `<td>${twoDArray[i][j]}</td>`;
+        }
+        htmlTable += '</tr>';
+    }
+    htmlTable += '</table>';
+
+    res.send(`<!DOCTYPE html>
+        <html>
+        <head>
+            <title>Lagrange's Interpolation</title>
+            <link rel="stylesheet" type="text/css" href="css/styles.css" />
+        </head>
+        <body background="resources/mcsc.png">
+            <b>
+            <h1>Lagrange's Interpolation </h1>
+            <h1>Solver</h1>
+                    <form id="solver-form" action="/" method="post">
+                    <div class="prev">
+                    <center>
+                    <p>To find the integral of ${fx} with its upper limit as: ${b} and lower limit as: ${a} </p>
+                    <p>The data required to calculate integral value from given instructions:</p>
+                    <p>${htmlTable}</p>
+                    <p>The solution using Trapezoidal Rule is: ${trz.toFixed(6)}</p>
+                    <input type="submit" class="btn1" value="Back">    
+                    </center>
+                    </div>
+                    <div class="text2">
+                    <center>
+                    </center>
+                    </div>
+                    </form>
+                   
+            </b>
+        </body>
+        </html>`);
+});
+
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
